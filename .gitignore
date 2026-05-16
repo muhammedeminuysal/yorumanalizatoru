@@ -1,0 +1,10 @@
+# Python sanal ortamı
+venv/
+__pycache__/
+
+# React paketleri
+frontend/node_modules/
+frontend/dist/
+
+# API Şifreleri ve Gizli Dosyalar
+.env
