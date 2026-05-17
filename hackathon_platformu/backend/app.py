@@ -44,8 +44,9 @@ def sentetik():
             return jsonify({"hata": "Ürün adı çok uzun (maksimum 100 karakter)"}), 400
             
         # Özel karakter filtresi (temel seviye)
+        # + ve # gibi yaygın ürün karakterlerine izin veren esnek regex
         import re
-        if not re.match(r'^[\w\s\-\.,]+$', urun):
+        if not re.match(r'^[\w\s\-\.,\+#&]+$', urun):
             return jsonify({"hata": "Ürün adı geçersiz karakterler içeriyor"}), 400
 
         sonuc = sentetik_analiz(urun)

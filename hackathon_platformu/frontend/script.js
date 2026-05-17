@@ -52,7 +52,7 @@ function puanRengi(p) {
 function isValidInput(text) {
     if (!text || text.trim().length === 0) return { valid: false, msg: "Alan boş bırakılamaz." };
     if (text.length > 100) return { valid: false, msg: "Girdi çok uzun (maks 100 karakter)." };
-    const regex = /^[\w\s\-\.,ığüşöçİĞÜŞÖÇ]+$/i;
+    const regex = /^[\w\s\-\.,+#&ığüşöçİĞÜŞÖÇ]+$/i;
     if (!regex.test(text)) return { valid: false, msg: "Girdi geçersiz özel karakterler içeriyor." };
     return { valid: true };
 }
@@ -78,11 +78,12 @@ function displaySentetikSonuc(data, urunAdi) {
     const onUzerindenPuan = (memnuniyet !== "?" ? memnuniyet / 10 : "?");
     const skorRenk = puanRengi(onUzerindenPuan);
 
+    // 💡 DÜZELTME: Sabit HTML yazısı yerine, her şikayete ait kendi s.cozum verisini ekrana basıyoruz.
     const sorunHTML = kronikSorunlar.map(s => `
         <div class="sorun-item">
-            <h4>⚠️ ${s.baslik}</h4>
-            <p>${s.detay}</p>
-            <div style="margin-top:0.5rem; font-size:0.9rem; color:#a5f3fc;">💡 <strong>Önerilen Çözüm:</strong> Bu konuda daha proaktif müşteri desteği ve kalite kontrol artırılmalı.</div>
+            <h4>⚠️ ${s.baslik || "Bilinmeyen Sorun"}</h4>
+            <p>${s.detay || "Detay bulunamadı."}</p>
+            ${s.cozum ? `<div style="margin-top:0.5rem; font-size:0.9rem; color:#a5f3fc;">💡 <strong>Önerilen Çözüm:</strong> ${s.cozum}</div>` : ''}
         </div>
     `).join('');
 

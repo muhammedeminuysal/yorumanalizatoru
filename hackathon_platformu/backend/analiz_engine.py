@@ -13,7 +13,7 @@ import random
 API_KEY = os.getenv("GEMINI_API_KEY")
 if API_KEY:
     genai.configure(api_key=API_KEY)
-    model = genai.GenerativeModel("gemini-1.5-flash")
+    model = genai.GenerativeModel("gemini-3.1-flash-lite")
 else:
     model = None
 
@@ -34,41 +34,44 @@ def puan_rengi(p: float) -> str:
 def sentetik_analiz(urun_adi: str):
     """
     Gemini kullanarak sentetik ürün analizi oluşturur.
-    Hata durumlarında anlamlı mesaj döner.
+    Structured Outputs (Mecburi JSON) kullanarak Regex ihtiyacını ortadan kaldırır
+    ve her şikayet için özel çözüm üretir.
     """
     if not model:
         return {"hata": "GEMINI_API_KEY bulunamadı. Lütfen .env dosyanızı kontrol edin."}
         
+    # urun_key burada tanımlanıyor (Cache mekanizması için)
     urun_key = urun_adi.lower().strip()
     if urun_key in _analiz_cache:
         return _analiz_cache[urun_key]
     
     prompt = f"""
-    Görevin: "{urun_adi}" ürünü hakkında detaylı bir tüketici yorum analizi yap.
+    "{urun_adi}" ürünü hakkında detaylı bir tüketici yorum analizi yap.
     Bu ürün internette satıldığında insanların en çok övdüğü ve kronik şikayet ettikleri konuları hatırla.
     
-    SADECE aşağıdaki JSON formatında cevap ver, başka metin ekleme:
+    Yanıtını mutlaka aşağıdaki JSON şemasına birebir uyacak şekilde yapılandır:
     {{
-        "urun_adi": "{urun_adi}",
+        "urun_adi": "Ürünün tam adı",
         "genel_ozet": "Kullanıcıların genel görüşü...",
         "olumlu_yonler": ["öne çıkan 3 madde"],
-        "sikayetler": ["en çok şikayet edilen 3 konu"],
-        "ortalama_puan": 7.5,
-        "oneri": "Geliştirme önerisi..."
+        "sikayetler": [
+            {{
+                "baslik": "Sorunun kısa başlığı",
+                "detay": "Kullanıcıların bu konudaki şikayetinin detayı",
+                "cozum": "Bu spesifik sorunu çözmek için şirkete eyleme geçirilebilir özel öneri"
+            }}
+        ],
+        "ortalama_puan": 7.5
     }}
     """
     try:
-        # Timeout süresi genai yapılandırması içerisinde veya Flask tarafında ele alınır
-        response = model.generate_content(prompt)
-        text = response.text
-        
-        json_match = re.search(r"\{.*\}", text, re.DOTALL)
-        if json_match:
-            result = json.loads(json_match.group())
-        else:
-            result = json.loads(text)
+        response = model.generate_content(
+            prompt,
+            generation_config={"response_mime_type": "application/json"}
+        )
+        text = response.text.strip()
+        result = json.loads(text)
             
-        # Arayüz ile uyumluluk için formatlama
         puan = float(result.get("ortalama_puan", 7.5))
         result["genel_memnuniyet"] = int(puan * 10)
         result["kronik_sikayet_orani"] = max(100 - result["genel_memnuniyet"] - 10, 0)
@@ -80,9 +83,9 @@ def sentetik_analiz(urun_adi: str):
         ]
         result["duygu_dagilimi"] = duygu_dagilimi
         
-        # Kronik sorunların yanına Önerilen Çözüm ekleniyor
-        kor_noktalar = [{"baslik": s, "detay": result.get("oneri", "Müşteri hizmetleri iyileştirilmeli.")} for s in result.get("sikayetler", [])]
-        result["kor_noktalar"] = kor_noktalar
+        # Şikayetler doğrudan başlık, detay ve çözüm içeriyor
+        result["kor_noktalar"] = result.get("sikayetler", [])
+        
         result["analiz_edilen_urun"] = urun_adi
         result["toplam_yorum"] = "Sentetik Üretim"
         
@@ -92,10 +95,9 @@ def sentetik_analiz(urun_adi: str):
         return result
         
     except json.JSONDecodeError:
-        return {"hata": "Gemini yanıtı geçerli bir JSON değil. Lütfen tekrar deneyin."}
+        return {"hata": "Gemini yanıtı geçerli bir JSON formatında oluşturamadı. Lütfen tekrar deneyin."}
     except Exception as e:
         return {"hata": f"Gemini API Hatası: {str(e)}"}
-
 def toplu_grup_analiz(yorumlar_grubu: list) -> list[dict]:
     # Basit bir mock fonksiyonu
     sonuclar = []
