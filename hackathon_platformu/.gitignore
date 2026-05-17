@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 # Environment variables
 .env
 .env.local
@@ -36,15 +35,3 @@ venv.bak/
 .idea/
 .vscode/
 *.swp
-=======
-# Python sanal ortamı
-venv/
-__pycache__/
-
-# React paketleri
-frontend/node_modules/
-frontend/dist/
-
-# API Şifreleri ve Gizli Dosyalar
-.env
->>>>>>> 0782bd732eee4023896dc3b83325e5da6e687554
