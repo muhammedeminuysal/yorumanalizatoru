@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="tr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Yorum Analiz Asistanı</title>
+    <link rel="stylesheet" href="style.css">
+    <!-- Chart.js for pie chart (Step 2/3) -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body>
+    <div class="container">
+        <header>
+            <h1>🧠 Yorum Analiz Asistanı</h1>
+            <p>AI Destekli Profesyonel Ürün Analiz Platformu</p>
+        </header>
+
+        <div class="tabs">
+            <button class="tab-btn active" data-tab="tekli">🔍 Tekli Analiz</button>
+            <button class="tab-btn" data-tab="toplu">📂 Toplu Analiz</button>
+            <button class="tab-btn" data-tab="karsilastir">⚖️ Karşılaştırma</button>
+            <button class="tab-btn" data-tab="ajan">🤖 Akıllı Ajan</button>
+        </div>
+
+        <!-- Tekli Analiz Sekmesi -->
+        <div id="tekli" class="tab-content active card">
+            <div class="input-group">
+                <input type="text" id="urun-adi" placeholder="Ürün adı veya linki gir... (Örn: iPhone 13, AirFryer)"
+                    value="iPhone 13">
+                <button id="analiz-btn">Analiz Et</button>
+            </div>
+            <div id="sonuc-alani" class="result">
+                <!-- Dinamik içerik buraya gelecek -->
+            </div>
+        </div>
+
+        <!-- Toplu Analiz Sekmesi -->
+        <div id="toplu" class="tab-content card">
+            <h3>Toplu Müşteri Yorumları Analizi</h3>
+            <p class="kaynak">Lütfen içinde 'yorum' veya 'yorumlar' sütunu bulunan bir CSV veya Excel dosyası yükleyin.
+            </p>
+            <div class="input-group" style="align-items: center;">
+                <input type="file" id="toplu-dosya" accept=".csv, .xlsx" style="margin-bottom:0;">
+                <button id="toplu-analiz-btn">Dosyayı Analiz Et</button>
+            </div>
+            <div id="toplu-sonuc" class="result"></div>
+        </div>
+
+        <!-- Karşılaştırma Sekmesi -->
+        <div id="karsilastir" class="tab-content card">
+            <h3>İki Ürünü Karşılaştır</h3>
+            <div class="input-group">
+                <input type="text" id="karsilastir-urun1" placeholder="1. Ürün Adı (Örn: iPhone 13)">
+                <input type="text" id="karsilastir-urun2" placeholder="2. Ürün Adı (Örn: Galaxy S22)">
+                <button id="karsilastir-btn">Karşılaştır</button>
+            </div>
+            <div id="karsilastir-sonuc" class="result"></div>
+        </div>
+
+        <!-- Akıllı Ajan Sekmesi -->
+        <div id="ajan" class="tab-content card">
+            <h3>Akıllı Analiz Ajanı</h3>
+            <div class="input-group" style="flex-direction: column;">
+                <input type="text" id="ajan-urun" placeholder="Ürün Adı">
+                <textarea id="ajan-yorumlar" rows="5" placeholder="Manuel yorumları alt alta ekleyin..."></textarea>
+                <button id="ajan-btn">Ajan Raporu Oluştur</button>
+            </div>
+            <div id="ajan-sonuc" class="result"></div>
+        </div>
+
+    </div>
+    <script src="script.js"></script>
+</body>
+
+</html>
