@@ -439,4 +439,33 @@ document.addEventListener("DOMContentLoaded", () => {
             }
         });
     }
+    // ==========================================
+    // 🚀 ENTER TUŞU İLE OTOMATİK TETİKLEME DESTEĞİ
+    // ==========================================
+    
+    // 1) Tekli Analiz Sekmesi için Enter
+    document.getElementById("urun-adi")?.addEventListener("keypress", function(e) {
+        if (e.key === "Enter") {
+            e.preventDefault(); // Form tetiklenmesini ve sayfa yenilenmesini önler
+            document.getElementById("analiz-btn")?.click();
+        }
+    });
+
+    // 2) Karşılaştırma Sekmesi için Enter (İki girdi alanı için de geçerli)
+    ["karsilastir-urun1", "karsilastir-urun2"].forEach(id => {
+        document.getElementById(id)?.addEventListener("keypress", function(e) {
+            if (e.key === "Enter") {
+                e.preventDefault();
+                document.getElementById("karsilastir-btn")?.click();
+            }
+        });
+    });
+
+    // 3) Akıllı Ajan Sekmesi için Enter (Sadece Ürün Adı alanında çalışır)
+    document.getElementById("ajan-urun")?.addEventListener("keypress", function(e) {
+        if (e.key === "Enter") {
+            e.preventDefault();
+            document.getElementById("ajan-btn")?.click();
+        }
+    });
 });
