@@ -20,17 +20,17 @@
 ---
 
 ## 📸 Ekran Görüntüleri
-<img src="resim1.png" alt="Tekli Analiz" width="250">
+<img src="image/resim1.jpg" alt="Tekli Analiz" width="250">
 
-<img src="resim2.png" alt="Tekli Analiz" width="250">
+<img src="image/resim2.png" alt="Tekli Analiz" width="250">
 
-<img src="resim3.png" alt="Toplu Analiz" width="250">
+<img src="image/resim3.png" alt="Toplu Analiz" width="250">
 
-<img src="resim4.png" alt="Karşılaştırma" width="250">
+<img src="image/resim4.png" alt="Karşılaştırma" width="250">
 
-<img src="resim5.png" alt="Karşılaştırma" width="250">
+<img src="image/resim5.png" alt="Karşılaştırma" width="250">
 
-<img src="resim6.png" alt="Akıllı Ajan" width="250">
+<img src="image/resim6.png" alt="Akıllı Ajan" width="250">
 
 ---
 
