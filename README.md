@@ -39,7 +39,7 @@
 - **Tekli Analiz** — Bir ürün adı girerek o ürün hakkında internetteki genel kanıyı sentetik olarak analiz eder. Kronik şikayetler tespit edilir, her sorun için özel Gemini promptu ile eşsiz çözüm önerileri üretilir.
 - **Toplu Analiz** — Yüklenen CSV veya Excel dosyasındaki yorumları duygu, kategori ve puan bağlamında değerlendirir. `temperature=0.1` ile deterministik, güvenilir sonuçlar garantilenir.
 - **Karşılaştırma** — İki farklı ürünün analiz sonuçlarını yan yana getirir. AI + sayısal metrik kombinasyonuyla hangi ürünün nerede öne çıktığını derinlemesine açıklar.
-- **Akıllı Ajan** — Manuel girilen yorum setleri üzerinden yönetici özeti ve uygulanabilir aksiyon planı çıkarır.
+- **Akıllı Ajan** — Manuel girilen yorum setleri veya link aracılığıyla yönetici özeti ve uygulanabilir aksiyon planı çıkarır.
 - **Dışa Aktarma** — Analiz sonuçlarını **Excel** formatında indirir; çıktı doğrudan Toplu Analiz modülüne girdi olarak kullanılabilir.
 
 ---
